@@ -21,10 +21,11 @@ const addTask = async(event) =>{
             Item: newTask
         }).promise()
     
-        return{
-            status: 200,
+        const response = {
+            statusCode: 200,
             body: JSON.stringify(newTask)
         }
+        return response;
     } catch (error) {
         console.log(error);
     }
