@@ -12,7 +12,8 @@ const addTask = async(event) =>{
             title,
             description,
             createdAt,
-            id
+            id,
+            done: false
         }
         console.log(newTask);
     
