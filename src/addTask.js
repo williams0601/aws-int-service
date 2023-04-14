@@ -29,6 +29,10 @@ const addTask = async(event) =>{
         return response;
     } catch (error) {
         console.log(error);
+        return {
+            statusCode: 500,
+            body: JSON.stringify('An  error has occured')
+        }
     }
 }
 
