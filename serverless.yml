@@ -1,16 +1,26 @@
 service: aws-lambda
 frameworkVersion: '3'
 
+custom:
+  stages:
+    - dev
+    - stage
+    - prod
+  baseTableName: 'RoutesLinked'
+  tableName: ${self:service}-${self:custom.baseTableName}-${opt:stage}
+
 provider:
   name: aws
   runtime: nodejs18.x
-  region: us-east-2
+  region: ${opt:region, 'us-east-2'}
+  stage: ${opt:stage}
+  profile: dev-profile
   iamRoleStatements:
     - Effect: Allow
       Action:
         - dynamodb:*
       Resource:
-        - arn:aws:dynamodb:us-east-2:787747965432:table/TaskTable
+        - Fn::GetAtt: [ TaskTable, Arn ]
 
 functions:
   hello:
@@ -56,7 +66,7 @@ resources:
     TaskTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: TaskTable
+        TableName: ${self:custom.tableName}
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: id
@@ -64,3 +74,6 @@ resources:
         KeySchema:
           - AttributeName: id
             KeyType: HASH
+
+plugins:
+  - serverless-stage-manager

@@ -4,5 +4,8 @@
     "uuid": "^9.0.0"
   },
   "name": "aws-lambda",
-  "author": "WDMC"
+  "author": "WDMC",
+  "devDependencies": {
+    "serverless-stage-manager": "^1.0.5"
+  }
 }
